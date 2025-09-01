@@ -500,3 +500,177 @@ h1 {
         animation: shine 12s infinite;
     }
 }
+/* Мобильная оптимизация */
+@media screen and (max-width: 768px) {
+    /* Улучшение производительности */
+    * {
+        -webkit-tap-highlight-color: transparent;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+    }
+    
+    /* Оптимизация контейнера */
+    .container {
+        transform: translateZ(0);
+        backface-visibility: hidden;
+        perspective: 1000px;
+        will-change: transform;
+        margin: 10px;
+        padding: 15px;
+    }
+    
+    /* Оптимизация анимаций */
+    .gift-box,
+    .main-photo,
+    .memory {
+        transform: translateZ(0);
+        backface-visibility: hidden;
+    }
+    
+    /* Упрощение сложных анимаций */
+    .gift-box:hover .gift-lid {
+        transform: rotate(-10deg);
+    }
+    
+    .main-photo:hover {
+        transform: scale(1.03);
+    }
+    
+    /* Оптимизация текста */
+    h1 {
+        font-size: 2.2rem;
+        background: linear-gradient(45deg, gold, #ff8c00);
+        -webkit-background-clip: text;
+        background-clip: text;
+    }
+    
+    .wishes p {
+        font-size: 1.1rem;
+        line-height: 1.5;
+    }
+    
+    /* Адаптивная сетка */
+    .memories-container {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+    
+    .countdown-timer {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+    
+    .time-unit {
+        padding: 10px;
+    }
+    
+    .time-unit span {
+        font-size: 1.4rem;
+    }
+    
+    /* Оптимизация изображений */
+    .main-photo {
+        width: 160px;
+        height: 160px;
+        border-width: 3px;
+    }
+    
+    /* Улучшение touch-интерфейса */
+    .gift-box,
+    .memory,
+    #playButton {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    /* Отключение ненужных эффектов */
+    .container::before {
+        animation: none;
+        display: none;
+    }
+    
+    .confetti {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    /* Дополнительная оптимизация для маленьких экранов */
+    h1 {
+        font-size: 1.8rem;
+    }
+    
+    .subtitle {
+        font-size: 1rem;
+    }
+    
+    .wishes {
+        padding: 15px;
+    }
+    
+    .wishes p {
+        font-size: 1rem;
+    }
+    
+    .main-photo {
+        width: 140px;
+        height: 140px;
+    }
+    
+    .memory {
+        padding: 10px 12px;
+        font-size: 0.9rem;
+    }
+    
+    .time-unit {
+        padding: 8px;
+    }
+    
+    .time-unit span {
+        font-size: 1.2rem;
+    }
+    
+    #playButton {
+        width: 44px;
+        height: 44px;
+        bottom: 10px;
+        right: 10px;
+    }
+}
+
+/* Оптимизация для iOS */
+@supports (-webkit-touch-callout: none) {
+    .container {
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .gift-box,
+    .main-photo {
+        -webkit-transform: translateZ(0);
+    }
+}
+
+/* Предотвращение лагов при скролле */
+.optimize-scrolling {
+    overflow-scrolling: touch;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Оптимизация рендеринга */
+.performance-optimize {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+/* Отключение анимаций для пользователей, которые их предпочитают не использовать */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
