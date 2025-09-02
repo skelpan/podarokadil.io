@@ -6,28 +6,34 @@
     <title>С Днём Рождения!</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-   
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<!-- Preload critical resources -->
-<link rel="preconnect" href="https://cdnjs.cloudflare.com">
-<link rel="preconnect" href="https://images.unsplash.com">
-<link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
-<link rel="dns-prefetch" href="https://images.unsplash.com">
-
-
-
-<!-- Preload fonts -->
-<link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 </head>
-
-
-
 <body>
     <div class="overlay"></div>
     
+    <!-- Видео-приветствие (показывается первым) -->
+    <div class="video-screen" id="videoScreen">
+        <div class="video-container">
+            <video class="birthday-video" id="birthdayVideo" loop playsinline>
+                <source src="assets/бибизянки.mp4" type="video/mp4">
+                Ваш браузер не поддерживает видео.
+            </video>
+            <div class="video-overlay"></div>
+            <div class="video-content">
+                <h2>С Днём Рождения! 🎉</h2>
+                <div class="video-controls">
+                    <button class="video-btn" id="muteVideo">
+                        <i class="fas fa-volume-up"></i>
+                    </button>
+                    <button class="skip-btn" id="skipVideo">
+                        Пропустить ▶
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <!-- Экран с подарком -->
-    <div class="gift-screen" id="giftScreen">
+    <div class="gift-screen hidden" id="giftScreen">
         <div class="gift-container">
             <h2>Открыть подарок</h2>
             <div class="gift-box" id="giftBox">
@@ -40,7 +46,7 @@
         </div>
     </div>
     
-    <!-- Основной контент (скрыт сначала) -->
+    <!-- Основной контент -->
     <div class="container hidden" id="mainContent">
         <div class="content">
             <div class="header">
@@ -49,12 +55,12 @@
             </div>
 
             <div class="photo-container">
-                <img src="img/мужик.jpg" alt="крутой перец" class="main-photo">
+                <img src="img/мужик.jpg" alt="Фото именинника" class="main-photo" loading="lazy">
             </div>
 
             <div class="wishes">
                 <p>Брат, пусть сегодня твой день будет самым крутым!</p>
-                <p>Желаем тебе всегда оставаться на высоте, достигать всех целей, никогда не сдаваться, купить крутую бибику и нас на ней прокатить.</p>
+                <p>Желаем тебе всегда оставаться на высоте, достигать всех целей и никогда не сдаваться.</p>
                 <p>Пусть удача будет всегда на твоей стороне, а друзья никогда не подводят!</p>
             </div>
 
@@ -62,9 +68,9 @@
                 <h3>Вспомни самые крутые моменты!</h3>
                 <div class="memories-container">
                     <div class="memory">Школьные годы</div>
-                    <div class="memory">Этот Вайб</div>
-                    <div class="memory">Общие приколы</div>
-                    <div class="memory">Что-то веселое</div>
+                    <div class="memory">Дружеские тусовки</div>
+                    <div class="memory">Общие достижения</div>
+                    <div class="memory">Веселые приключения</div>
                 </div>
             </div>
 
@@ -90,16 +96,22 @@
                 </div>
             </div>
 
+            <div class="video-replay">
+                <button id="replayVideo" class="replay-btn">
+                    <i class="fas fa-play-circle"></i> Посмотреть видео снова
+                </button>
+            </div>
+
             <div class="signature">
-                <p>Твои братки</p>
+                <p>Твои одноклассники</p>
             </div>
         </div>
     </div>
 
     <div class="music-player">
         <button id="playButton"><i class="fas fa-play"></i></button>
-        <audio id="birthdaySong" loop>
-            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        <audio id="birthdaySong" loop preload="none">
+            <source src="music/SQWOZ_BAB_-_TOKYO_79143101.mp3" type="audio/mpeg">
         </audio>
     </div>
 

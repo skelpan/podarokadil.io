@@ -1,8 +1,223 @@
+/* Стили для видео-экрана */
+.video-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2000;
+    background: #000;
+}
+
+.video-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.birthday-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, rgba(0,0,0,0.4), rgba(0,0,0,0.2));
+}
+
+.video-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    z-index: 10;
+    width: 90%;
+    max-width: 500px;
+}
+
+.video-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    color: #ffd700;
+}
+
+.video-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+.video-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(255, 215, 0, 0.9);
+    border: none;
+    color: #1a1a2e;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.video-btn:hover {
+    background: rgba(255, 215, 0, 1);
+    transform: scale(1.1);
+}
+
+.skip-btn {
+    background: rgba(255, 215, 0, 0.9);
+    border: none;
+    padding: 15px 30px;
+    border-radius: 30px;
+    color: #1a1a2e;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+    min-width: 140px;
+}
+
+.skip-btn:hover {
+    background: rgba(255, 215, 0, 1);
+    transform: scale(1.05);
+}
+
+/* Кнопка повторного просмотра */
+.video-replay {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.replay-btn {
+    background: linear-gradient(45deg, #ff6b6b, #ff8c00);
+    border: none;
+    padding: 15px 30px;
+    border-radius: 30px;
+    color: white;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.replay-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
+}
+
+/* Адаптивность для видео */
+@media screen and (max-width: 768px) {
+    .video-content h2 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+    
+    .video-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 1.1rem;
+    }
+    
+    .skip-btn {
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
+    
+    .replay-btn {
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .video-content h2 {
+        font-size: 1.7rem;
+        margin-bottom: 15px;
+    }
+    
+    .video-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+    
+    .skip-btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        min-width: 120px;
+    }
+    
+    .replay-btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Портретная ориентация на мобильных */
+@media screen and (max-width: 768px) and (orientation: portrait) {
+    .birthday-video {
+        object-fit: cover;
+    }
+}
+
+/* Ландшафтная ориентация на мобильных */
+@media screen and (max-width: 768px) and (orientation: landscape) {
+    .birthday-video {
+        object-fit: cover;
+    }
+    
+    .video-content {
+        top: 50%;
+    }
+    
+    .video-content h2 {
+        font-size: 1.5rem;
+    }
+    
+    .video-controls {
+        flex-direction: row;
+        justify-content: center;
+    }
+}
+
+/* Анимация появления видео */
+@keyframes videoFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.video-screen {
+    animation: videoFadeIn 1s ease-out;
+}
+
+/* Остальные стили остаются без изменений */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -49,88 +264,82 @@ body {
 }
 
 .gift-container h2 {
-    font-size: 2.5rem;
+    font-size: 2rem;
     color: gold;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
 }
 
 .gift-container p {
-    margin-top: 20px;
-    font-size: 1.2rem;
+    margin-top: 15px;
+    font-size: 1.1rem;
     color: #fff;
-    animation: pulse 2s infinite;
 }
 
 .gift-box {
     position: relative;
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     margin: 0 auto;
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .gift-body {
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 120px;
+    height: 90px;
     background: linear-gradient(45deg, #ff0000, #cc0000);
-    border-radius: 10px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
 }
 
 .gift-lid {
     position: absolute;
     top: 0;
     width: 100%;
-    height: 40px;
+    height: 30px;
     background: linear-gradient(45deg, #cc0000, #ff0000);
-    border-radius: 10px 10px 0 0;
-    transition: transform 1s ease;
+    border-radius: 8px 8px 0 0;
+    transition: transform 0.8s ease;
     transform-origin: center bottom;
 }
 
 .gift-bow {
     position: absolute;
-    top: -20px;
+    top: -15px;
     left: 50%;
     transform: translateX(-50%);
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     background: gold;
     border-radius: 50%;
-    box-shadow: 0 0 10px gold;
 }
 
 .gift-bow::before,
 .gift-bow::after {
     content: '';
     position: absolute;
-    width: 60px;
-    height: 20px;
+    width: 45px;
+    height: 15px;
     background: gold;
-    border-radius: 10px;
+    border-radius: 8px;
 }
 
 .gift-bow::before {
-    top: 10px;
-    left: -70px;
+    top: 8px;
+    left: -50px;
     transform: rotate(-45deg);
 }
 
 .gift-bow::after {
-    top: 10px;
-    right: -70px;
+    top: 8px;
+    right: -50px;
     transform: rotate(45deg);
 }
 
-.gift-box:hover .gift-lid {
-    transform: rotate(-15deg);
-}
-
 .gift-box.open .gift-lid {
-    transform: rotate(-110deg) translateY(-20px);
+    transform: rotate(-110deg) translateY(-15px);
 }
 
 .hidden {
@@ -141,37 +350,12 @@ body {
 .container {
     max-width: 800px;
     width: 100%;
-    background: rgba(30, 30, 46, 0.8);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    padding: 30px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    background: rgba(30, 30, 46, 0.9);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 215, 0, 0.3);
-    position: relative;
-    overflow: hidden;
-    margin: 20px 0;
-}
-
-.container::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.1), transparent);
-    transform: rotate(45deg);
-    animation: shine 6s infinite;
-    z-index: 0;
-}
-
-@keyframes shine {
-    0% {
-        left: -50%;
-    }
-    100% {
-        left: 150%;
-    }
+    margin: 15px 0;
 }
 
 .content {
@@ -181,77 +365,51 @@ body {
 
 .header {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 h1 {
-    font-size: 3.5rem;
+    font-size: 2.5rem;
     background: linear-gradient(45deg, gold, #ff8c00, gold);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
     margin-bottom: 10px;
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
 }
 
 .subtitle {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: #ffd700;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .photo-container {
     display: flex;
     justify-content: center;
-    margin: 25px 0;
+    margin: 20px 0;
 }
 
 .main-photo {
-    width: 250px;
-    height: 250px;
+    width: 200px;
+    height: 200px;
     object-fit: cover;
     border-radius: 50%;
-    border: 5px solid gold;
-    box-shadow: 0 0 25px rgba(255, 215, 0, 0.5);
-    transition: all 0.4s ease;
-    cursor: pointer;
-}
-
-.main-photo:hover {
-    transform: scale(1.05) rotate(5deg);
-    box-shadow: 0 0 35px rgba(255, 215, 0, 0.8);
+    border: 4px solid gold;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
 }
 
 .wishes {
     background: rgba(0, 0, 0, 0.3);
-    padding: 25px;
-    border-radius: 15px;
-    margin: 25px 0;
-    border-left: 4px solid gold;
-    position: relative;
-}
-
-.wishes::before {
-    content: '"';
-    font-size: 5rem;
-    color: rgba(255, 215, 0, 0.2);
-    position: absolute;
-    top: -20px;
-    left: 10px;
+    padding: 20px;
+    border-radius: 12px;
+    margin: 20px 0;
+    border-left: 3px solid gold;
 }
 
 .wishes p {
-    font-size: 1.3rem;
-    line-height: 1.6;
-    margin-bottom: 15px;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    margin-bottom: 12px;
     text-align: center;
-    font-style: italic;
 }
 
 .wishes p:last-child {
@@ -262,193 +420,116 @@ h1 {
 
 /* Блок воспоминаний */
 .memories {
-    margin: 30px 0;
+    margin: 25px 0;
     text-align: center;
 }
 
 .memories h3 {
     color: gold;
-    margin-bottom: 20px;
-    font-size: 1.5rem;
+    margin-bottom: 15px;
+    font-size: 1.3rem;
 }
 
 .memories-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
 }
 
 .memory {
-    background: linear-gradient(45deg, rgba(255, 215, 0, 0.2), rgba(255, 140, 0, 0.2));
-    padding: 15px 20px;
-    border-radius: 10px;
-    border: 1px solid rgba(255, 215, 0, 0.3);
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.memory:hover {
-    transform: translateY(-5px);
-    background: linear-gradient(45deg, rgba(255, 215, 0, 0.3), rgba(255, 140, 0, 0.3));
-    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+    background: linear-gradient(45deg, rgba(255, 215, 0, 0.15), rgba(255, 140, 0, 0.15));
+    padding: 12px 15px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    text-align: center;
+    font-size: 0.9rem;
 }
 
 /* Таймер обратного отсчета */
 .countdown {
-    margin: 30px 0;
+    margin: 25px 0;
     text-align: center;
 }
 
 .countdown h3 {
     color: gold;
-    margin-bottom: 20px;
-    font-size: 1.5rem;
+    margin-bottom: 15px;
+    font-size: 1.3rem;
 }
 
 .countdown-timer {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
 }
 
 .time-unit {
     background: rgba(0, 0, 0, 0.3);
-    padding: 15px;
-    border-radius: 10px;
-    min-width: 80px;
-    border: 1px solid rgba(255, 215, 0, 0.3);
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 215, 0, 0.2);
 }
 
 .time-unit span {
     display: block;
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: bold;
     color: gold;
 }
 
 .time-unit small {
     color: #fff;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
 }
 
 .signature {
     text-align: center;
-    margin-top: 30px;
-    padding-top: 20px;
-    border-top: 1px solid rgba(255, 215, 0, 0.3);
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 215, 0, 0.2);
 }
 
 .signature p {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-weight: bold;
-    margin-bottom: 15px;
     color: #ffd700;
 }
 
 .music-player {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
+    bottom: 15px;
+    right: 15px;
     z-index: 100;
 }
 
 #playButton {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     background: linear-gradient(45deg, gold, #ff8c00);
     border: none;
     color: #1a1a2e;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     cursor: pointer;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    transition: all 0.3s ease;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-#playButton:hover {
-    transform: scale(1.1) rotate(360deg);
-    box-shadow: 0 8px 20px rgba(255, 215, 0, 0.5);
-}
-
-.confetti {
-    position: absolute;
-    width: 15px;
-    height: 15px;
-    background-color: #ffd700;
-    opacity: 0.7;
-    border-radius: 0;
-    animation: fall linear forwards;
-    z-index: -1;
-}
-
-@keyframes fall {
-    to {
-        transform: translateY(100vh) rotate(720deg);
-    }
-}
-
 /* Адаптивность для мобильных устройств */
-@media (max-width: 768px) {
-    .container {
-        padding: 20px;
-        margin: 10px;
-    }
-    
-    h1 {
-        font-size: 2.5rem;
-    }
-    
-    .gift-container h2 {
-        font-size: 2rem;
-    }
-    
-    .gift-box {
-        width: 150px;
-        height: 150px;
-    }
-    
-    .subtitle {
-        font-size: 1rem;
-    }
-    
-    .main-photo {
-        width: 200px;
-        height: 200px;
-    }
-    
-    .wishes {
+@media screen and (max-width: 768px) {
+    body {
         padding: 15px;
+        justify-content: flex-start;
     }
     
-    .wishes p {
-        font-size: 1.1rem;
+    .container {
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 12px;
     }
     
-    .countdown-timer {
-        gap: 10px;
-    }
-    
-    .time-unit {
-        min-width: 60px;
-        padding: 10px;
-    }
-    
-    .time-unit span {
-        font-size: 1.5rem;
-    }
-    
-    #playButton {
-        width: 50px;
-        height: 50px;
-        font-size: 1.2rem;
-    }
-}
-
-@media (max-width: 480px) {
     h1 {
         font-size: 2rem;
     }
@@ -457,151 +538,26 @@ h1 {
         font-size: 1.7rem;
     }
     
-    .main-photo {
-        width: 180px;
-        height: 180px;
+    .gift-box {
+        width: 120px;
+        height: 120px;
     }
     
-    .wishes p {
-        font-size: 1rem;
+    .gift-body {
+        height: 70px;
     }
     
-    .memories-container {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .countdown-timer {
-        flex-wrap: wrap;
-    }
-    
-    .time-unit {
-        min-width: 70px;
-    }
-}
-
-/* Оптимизация анимаций */
-@media (prefers-reduced-motion: reduce) {
-    * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-    }
-}
-
-/* Улучшенная производительность */
-.will-change {
-    will-change: transform, opacity;
-}
-
-/* Оптимизация для слабых устройств */
-@media (max-width: 1024px) {
-    .container::before {
-        animation: shine 12s infinite;
-    }
-}
-/* Мобильная оптимизация */
-@media screen and (max-width: 768px) {
-    /* Улучшение производительности */
-    * {
-        -webkit-tap-highlight-color: transparent;
-        -webkit-font-smoothing: antialiased;
-        text-rendering: optimizeLegibility;
-    }
-    
-    /* Оптимизация контейнера */
-    .container {
-        transform: translateZ(0);
-        backface-visibility: hidden;
-        perspective: 1000px;
-        will-change: transform;
-        margin: 10px;
-        padding: 15px;
-    }
-    
-    /* Оптимизация анимаций */
-    .gift-box,
-    .main-photo,
-    .memory {
-        transform: translateZ(0);
-        backface-visibility: hidden;
-    }
-    
-    /* Упрощение сложных анимаций */
-    .gift-box:hover .gift-lid {
-        transform: rotate(-10deg);
-    }
-    
-    .main-photo:hover {
-        transform: scale(1.03);
-    }
-    
-    /* Оптимизация текста */
-    h1 {
-        font-size: 2.2rem;
-        background: linear-gradient(45deg, gold, #ff8c00);
-        -webkit-background-clip: text;
-        background-clip: text;
-    }
-    
-    .wishes p {
-        font-size: 1.1rem;
-        line-height: 1.5;
-    }
-    
-    /* Адаптивная сетка */
-    .memories-container {
-        grid-template-columns: 1fr;
-        gap: 8px;
-    }
-    
-    .countdown-timer {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 8px;
-    }
-    
-    .time-unit {
-        padding: 10px;
-    }
-    
-    .time-unit span {
-        font-size: 1.4rem;
-    }
-    
-    /* Оптимизация изображений */
-    .main-photo {
-        width: 160px;
-        height: 160px;
-        border-width: 3px;
-    }
-    
-    /* Улучшение touch-интерфейса */
-    .gift-box,
-    .memory,
-    #playButton {
-        min-height: 44px;
-        min-width: 44px;
-    }
-    
-    /* Отключение ненужных эффектов */
-    .container::before {
-        animation: none;
-        display: none;
-    }
-    
-    .confetti {
-        display: none;
-    }
-}
-
-@media screen and (max-width: 480px) {
-    /* Дополнительная оптимизация для маленьких экранов */
-    h1 {
-        font-size: 1.8rem;
+    .gift-lid {
+        height: 25px;
     }
     
     .subtitle {
         font-size: 1rem;
+    }
+    
+    .main-photo {
+        width: 150px;
+        height: 150px;
     }
     
     .wishes {
@@ -612,14 +568,60 @@ h1 {
         font-size: 1rem;
     }
     
-    .main-photo {
-        width: 140px;
-        height: 140px;
+    .memories-container {
+        grid-template-columns: 1fr;
+        gap: 8px;
     }
     
     .memory {
         padding: 10px 12px;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
+    }
+    
+    .countdown-timer {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .time-unit {
+        padding: 10px;
+    }
+    
+    .time-unit span {
+        font-size: 1.3rem;
+    }
+    
+    #playButton {
+        width: 45px;
+        height: 45px;
+        font-size: 1.1rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    h1 {
+        font-size: 1.8rem;
+    }
+    
+    .gift-container h2 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+    }
+    
+    .gift-container p {
+        font-size: 1rem;
+    }
+    
+    .main-photo {
+        width: 130px;
+        height: 130px;
+    }
+    
+    .wishes p {
+        font-size: 0.95rem;
+    }
+    
+    .countdown-timer {
+        grid-template-columns: repeat(2, 1fr);
     }
     
     .time-unit {
@@ -630,47 +632,24 @@ h1 {
         font-size: 1.2rem;
     }
     
-    #playButton {
-        width: 44px;
-        height: 44px;
-        bottom: 10px;
-        right: 10px;
+    .signature p {
+        font-size: 1.1rem;
     }
 }
 
-/* Оптимизация для iOS */
-@supports (-webkit-touch-callout: none) {
-    .container {
-        -webkit-overflow-scrolling: touch;
-    }
-    
-    .gift-box,
-    .main-photo {
-        -webkit-transform: translateZ(0);
-    }
-}
-
-/* Предотвращение лагов при скролле */
-.optimize-scrolling {
-    overflow-scrolling: touch;
-    -webkit-overflow-scrolling: touch;
-}
-
-/* Оптимизация рендеринга */
-.performance-optimize {
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    perspective: 1000px;
-}
-
-/* Отключение анимаций для пользователей, которые их предпочитают не использовать */
+/* Отключение анимаций для слабых устройств */
 @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
+    * {
+        animation: none !important;
+        transition: none !important;
     }
+}
+
+/* Оптимизация для тач-устройств */
+.touch-device .main-photo:hover {
+    transform: none !important;
+}
+
+.touch-device .memory:hover {
+    transform: none !important;
 }

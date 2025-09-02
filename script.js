@@ -1,79 +1,230 @@
-// Оптимизированные функции для мобильных устройств
-class MobileOptimizer {
+class BirthdayWebsite {
     constructor() {
         this.isMobile = this.checkMobile();
+        this.videoDuration = 24000; // 10 секунд видео
+        this.isVideoMuted = false;
         this.init();
     }
+    setupMusicPlayer() {
+    const playButton = document.getElementById('playButton');
+    const audio = document.getElementById('birthdaySong');
     
+    if (!playButton || !audio) return;
+
+    // Состояние
+    let isPlaying = false;
+
+    // Пытаемся сразу запустить музыку
+    audio.play().then(() => {
+        console.log('Музыка автоматически запущена');
+        isPlaying = true;
+        playButton.innerHTML = '<i class="fas fa-pause"></i>';
+    }).catch(() => {
+        console.log('Автовоспроизведение аудио заблокировано, ждём клика пользователя');
+        
+        // Включаем при первом клике в любое место
+        const resumeMusic = () => {
+            audio.play().then(() => {
+                isPlaying = true;
+                playButton.innerHTML = '<i class="fas fa-pause"></i>';
+                document.removeEventListener('click', resumeMusic);
+            });
+        };
+        document.addEventListener('click', resumeMusic);
+    });
+
+    // Обработчик кнопки
+    playButton.addEventListener('click', (e) => {
+        e.stopPropagation(); // чтобы клик не срабатывал на документ
+
+        if (isPlaying) {
+            audio.pause();
+            isPlaying = false;
+            playButton.innerHTML = '<i class="fas fa-play"></i>';
+        } else {
+            audio.play().then(() => {
+                isPlaying = true;
+                playButton.innerHTML = '<i class="fas fa-pause"></i>';
+            }).catch(() => {
+                console.log('Не удалось воспроизвести аудио');
+            });
+        }
+    });
+
+    // Если музыка закончилась — сбрасываем кнопку
+    audio.addEventListener('ended', () => {
+        isPlaying = false;
+        playButton.innerHTML = '<i class="fas fa-play"></i>';
+    });
+}
     checkMobile() {
         return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     }
     
     init() {
+        this.setupEventListeners();
+        this.setupVideo();
         if (this.isMobile) {
             this.optimizeForMobile();
         }
-        this.setupEventListeners();
     }
     
-    optimizeForMobile() {
-        // Упрощаем анимации для мобильных
-        this.disableHeavyAnimations();
-        this.optimizeTouchEvents();
-        this.lazyLoadResources();
+    setupVideo() {
+        // Видео уже показывается по умолчанию
+        this.startVideo();
+        
     }
     
-    disableHeavyAnimations() {
-        // Отключаем конфетти на мобильных
-        const confettiStyles = document.createElement('style');
-        confettiStyles.textContent = `
-            .confetti { display: none !important; }
-            .container::before { display: none !important; }
-        `;
-        document.head.appendChild(confettiStyles);
-    }
-    
-    optimizeTouchEvents() {
-        // Оптимизация touch-событий
-        document.addEventListener('touchstart', this.handleTouchStart, { passive: true });
-        document.addEventListener('touchmove', this.handleTouchMove, { passive: true });
-        document.addEventListener('touchend', this.handleTouchEnd, { passive: true });
-    }
-    
-    handleTouchStart(e) {
-        // Минимальная обработка touch-событий
-    }
-    
-    handleTouchMove(e) {
-        // Предотвращаем лаги при скролле
-    }
-    
-    handleTouchEnd(e) {
-        // Быстрая обработка окончания касания
-    }
-    
-    lazyLoadResources() {
-        // Ленивая загрузка для мобильных
-        const images = document.querySelectorAll('img');
-        images.forEach(img => {
-            if (!img.classList.contains('loaded')) {
-                img.loading = 'lazy';
+    async startVideo() {
+        const video = document.getElementById('birthdayVideo');
+        
+        try {
+            // Сначала пытаемся запустить со звуком
+            await video.play();
+            console.log('Видео запущено со звуком');
+            this.startVideoTimer();
+        } catch (error) {
+            console.log('Автовоспроизведение со звуком заблокировано, пробуем без звука');
+            
+            // Пробуем запустить без звука
+            video.muted = true;
+            this.isVideoMuted = true;
+            this.updateMuteButton();
+            
+            try {
+                await video.play();
+                this.startVideoTimer();
+            } catch (error2) {
+                console.log('Не удалось запустить видео, пропускаем');
+                this.hideVideo();
             }
-        });
+        }
+    }
+    
+    startVideoTimer() {
+        // Автоматически скрываем видео после заданного времени
+        this.videoTimer = setTimeout(() => {
+            this.hideVideo();
+        }, this.videoDuration);
+    }
+    
+    hideVideo() {
+        const videoScreen = document.getElementById('videoScreen');
+        const video = document.getElementById('birthdayVideo');
+        
+        // Останавливаем таймер
+        if (this.videoTimer) {
+            clearTimeout(this.videoTimer);
+        }
+        
+        videoScreen.style.opacity = '0';
+        video.pause();
+        
+        setTimeout(() => {
+            videoScreen.classList.add('hidden');
+            this.showGiftScreen();
+        }, 500);
+    }
+    
+    showGiftScreen() {
+        const giftScreen = document.getElementById('giftScreen');
+        giftScreen.classList.remove('hidden');
+    }
+    
+    async showVideoAgain() {
+        const videoScreen = document.getElementById('videoScreen');
+        const video = document.getElementById('birthdayVideo');
+        
+        videoScreen.classList.remove('hidden');
+        videoScreen.style.opacity = '1';
+        
+        // Перематываем видео в начало
+        video.currentTime = 0;
+        
+        // Включаем звук при повторном просмотре
+        if (this.isVideoMuted) {
+            video.muted = false;
+            this.isVideoMuted = false;
+            this.updateMuteButton();
+        }
+        
+        try {
+            await video.play();
+            this.startVideoTimer();
+        } catch (error) {
+            console.log('Не удалось запустить видео');
+            this.hideVideo();
+        }
+    }
+    
+    toggleMute() {
+        const video = document.getElementById('birthdayVideo');
+        video.muted = !video.muted;
+        this.isVideoMuted = video.muted;
+        this.updateMuteButton();
+    }
+    
+    updateMuteButton() {
+        const muteButton = document.getElementById('muteVideo');
+        if (muteButton) {
+            muteButton.innerHTML = this.isVideoMuted ? 
+                '<i class="fas fa-volume-mute"></i>' : 
+                '<i class="fas fa-volume-up"></i>';
+        }
     }
     
     setupEventListeners() {
-        // Оптимизированные обработчики событий
+        this.setupSkipVideo();
+        this.setupMuteButton();
         this.setupGiftInteraction();
         this.setupMusicPlayer();
-        this.setupPhotoAnimation();
+        this.setupVideoReplay();
+        
+        // Обработчик для самого видео
+        const video = document.getElementById('birthdayVideo');
+        if (video) {
+            video.addEventListener('click', () => {
+                this.toggleMute();
+            });
+        }
+    }
+    
+    setupSkipVideo() {
+        const skipButton = document.getElementById('skipVideo');
+        if (skipButton) {
+            skipButton.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.hideVideo();
+            });
+        }
+    }
+    
+    setupMuteButton() {
+        const muteButton = document.getElementById('muteVideo');
+        if (muteButton) {
+            muteButton.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.toggleMute();
+            });
+        }
+    }
+    
+    setupVideoReplay() {
+        const replayButton = document.getElementById('replayVideo');
+        if (replayButton) {
+            replayButton.addEventListener('click', () => {
+                this.showVideoAgain();
+            });
+        }
     }
     
     setupGiftInteraction() {
         const giftBox = document.getElementById('giftBox');
         if (!giftBox) return;
         
-        giftBox.addEventListener('click', this.handleGiftClick.bind(this), { passive: true });
+        giftBox.addEventListener('click', () => {
+            this.handleGiftClick();
+        });
     }
     
     handleGiftClick() {
@@ -122,24 +273,11 @@ class MobileOptimizer {
                 playButton.innerHTML = '<i class="fas fa-play"></i>';
             } else {
                 audio.play().catch(() => {
-                    console.log('Автовоспроизведение заблокировано');
+                    console.log('Автовоспроизведение аудио заблокировано');
                 });
                 playButton.innerHTML = '<i class="fas fa-pause"></i>';
             }
             isPlaying = !isPlaying;
-        }, { passive: true });
-    }
-    
-    setupPhotoAnimation() {
-        const photo = document.querySelector('.main-photo');
-        if (!photo || this.isMobile) return;
-        
-        photo.addEventListener('mouseenter', () => {
-            photo.style.transform = 'scale(1.03)';
-        });
-        
-        photo.addEventListener('mouseleave', () => {
-            photo.style.transform = 'scale(1)';
         });
     }
     
@@ -163,9 +301,13 @@ class MobileOptimizer {
             
             if (diff <= 0) {
                 ['days', 'hours', 'minutes', 'seconds'].forEach(id => {
-                    document.getElementById(id).textContent = '0';
+                    const element = document.getElementById(id);
+                    if (element) element.textContent = '0';
                 });
-                document.querySelector('.countdown h3').textContent = 'С Днём Рождения!';
+                const countdownTitle = document.querySelector('.countdown h3');
+                if (countdownTitle) {
+                    countdownTitle.textContent = 'С Днём Рождения!';
+                }
                 return;
             }
             
@@ -174,58 +316,58 @@ class MobileOptimizer {
             const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((diff % (1000 * 60)) / 1000);
             
-            document.getElementById('days').textContent = days;
-            document.getElementById('hours').textContent = hours;
-            document.getElementById('minutes').textContent = minutes;
-            document.getElementById('seconds').textContent = seconds;
+            const daysElement = document.getElementById('days');
+            const hoursElement = document.getElementById('hours');
+            const minutesElement = document.getElementById('minutes');
+            const secondsElement = document.getElementById('seconds');
             
-            if (!this.isMobile) {
-                requestAnimationFrame(updateCountdown);
-            }
+            if (daysElement) daysElement.textContent = days;
+            if (hoursElement) hoursElement.textContent = hours;
+            if (minutesElement) minutesElement.textContent = minutes;
+            if (secondsElement) secondsElement.textContent = seconds;
         };
         
         updateCountdown();
-        if (this.isMobile) {
-            setInterval(updateCountdown, 1000);
-        }
+        this.countdownInterval = setInterval(updateCountdown, 1000);
+    }
+    
+    optimizeForMobile() {
+        // Оптимизация для мобильных устройств
+        this.disableHeavyAnimations();
+    }
+    
+    disableHeavyAnimations() {
+        // Упрощаем анимации для мобильных
+        const style = document.createElement('style');
+        style.textContent = `
+            .confetti { display: none !important; }
+            .container::before { display: none !important; }
+        `;
+        document.head.appendChild(style);
     }
 }
 
 // Инициализация при загрузке
 document.addEventListener('DOMContentLoaded', () => {
-    // Используем requestIdleCallback для оптимальной загрузки
-    if ('requestIdleCallback' in window) {
-        requestIdleCallback(() => {
-            new MobileOptimizer();
-        });
-    } else {
-        setTimeout(() => {
-            new MobileOptimizer();
-        }, 1000);
-    }
+    window.birthdayApp = new BirthdayWebsite();
 });
 
-// Оптимизация изменения ориентации
-let resizeTimeout;
-window.addEventListener('resize', () => {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(() => {
+// Обработчик изменения ориентации
+window.addEventListener('orientationchange', () => {
+    setTimeout(() => {
         window.scrollTo(0, 0);
-    }, 250);
+    }, 300);
 });
 
-// Предотвращение zoom на iOS
-document.addEventListener('touchstart', function(event) {
-    if (event.touches.length > 1) {
-        event.preventDefault();
+// Глобальные функции для отладки
+window.skipVideo = function() {
+    if (window.birthdayApp) {
+        window.birthdayApp.hideVideo();
     }
-}, { passive: false });
+};
 
-let lastTouchEnd = 0;
-document.addEventListener('touchend', function(event) {
-    const now = (new Date()).getTime();
-    if (now - lastTouchEnd <= 300) {
-        event.preventDefault();
+window.replayVideo = function() {
+    if (window.birthdayApp) {
+        window.birthdayApp.showVideoAgain();
     }
-    lastTouchEnd = now;
-}, { passive: false });
+};
